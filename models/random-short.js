@@ -9,3 +9,5 @@ const randomSchema = new Schema({
         type:String,
     }
 })
+
+module.exports = mongoose.model("Random", randomSchema)
