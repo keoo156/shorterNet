@@ -30,7 +30,7 @@ app.get("/",(req,res) => {
 //送出資料並存到資料庫
 app.post("/random",(req,res) =>{
     let origin = req.body.url;
-    let random = "9MNGz"
+    let random = getRandom()
     return Random.find({origin})
     .lean()
     .then(allData => {
