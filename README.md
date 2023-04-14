@@ -10,8 +10,13 @@
 將網址貼進輸入列,按按鈕就可以產生短網址,也可以點擊複製按鈕複製
 
 # 專案配置步驟
+## 第一步
 `npm init`
+## 第二步
 `npm install express`
+## 第三步
 `npm install express-handlebars @3.0.0`
+## 第四步
 `npm install mongoose`
+## 記得設定port
 `設定 port 3000`
