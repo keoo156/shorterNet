@@ -30,14 +30,25 @@ app.get("/",(req,res) => {
 //送出資料並存到資料庫
 app.post("/random",(req,res) =>{
     let origin = req.body.url;
-    let random = getRandom();
-    return Random.create({origin, random})
-    .then(() => {
-        return res.render("results", {origin,random})
+    let random = "9MNGz"
+    return Random.find({origin})
+    .lean()
+    .then(allData => {
+        if (allData !== null){ //看看有沒有重複的網站
+            allData.forEach(data =>{ //如果有就用foreach來跑
+                while(data.random === random){
+                    random = getRandom(); //有找到就重新生成一次
+                }
+            })
+            Random.create({origin, random})
+        }else{
+            Random.create({origin, random})
+        }
+    return res.render("results", {origin, random})
     })
-    .catch(e =>{
-        return res.render("error")
-    })
+    .catch(e => {
+        res.render("error")
+    })    
 })
 
 //讓短網址導向原來頁面
