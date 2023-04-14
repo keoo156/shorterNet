@@ -11,3 +11,7 @@
 
 # 專案配置步驟
 `npm init`
+`npm install express`
+`npm install express-handlebars @3.0.0`
+`npm install mongoose`
+`設定 port 3000`
