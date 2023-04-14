@@ -8,6 +8,21 @@
 </head>
 <body>
     <p>以下是結果,原網址為:{{ origin }}</p>
-    <p>以下是縮短結果: <a href="http://localhost:3000/random/{{ random }}" target="_blank" >http://localhost:3000/random/{{ random }}</a></p>
+    <p>以下是縮短結果: <a href="http://localhost:3000/random/{{ random }}" target="_blank" id="short" >http://localhost:3000/random/{{ random }}</a></p>
+    <button type="button" id="btn" class="btn btn-primary">點擊複製短網址</button>
+    <script>
+        //複製短網址功能
+        let button = document.querySelector("#btn")
+        let short = document.querySelector("#short")
+        button.addEventListener("click",(e)=>{
+            navigator.clipboard.writeText(short.innerText)
+            .then(()=>{
+                alert("已複製")
+            })
+            .catch(()=>{
+                alert("發生錯誤")
+            })
+        })
+    </script>
 </body>
 </html>
