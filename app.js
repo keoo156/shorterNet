@@ -24,7 +24,7 @@ app.use(express.urlencoded({extended:true}))
 
 //首頁
 app.get("/",(req,res) => {
-   res.render("index")
+   return res.render("index")
 })
 
 //送出資料並存到資料庫
@@ -33,10 +33,10 @@ app.post("/random",(req,res) =>{
     let random = getRandom();
     return Random.create({origin, random})
     .then(() => {
-        res.render("results", {origin,random})
+        return res.render("results", {origin,random})
     })
     .catch(e =>{
-        console.log(e)
+        return res.render("error")
     })
 })
 
@@ -46,12 +46,18 @@ app.get("/random/:random",(req,res)=>{
     return Random.findOne({random})
     .lean()
     .then(data=>{
-        res.redirect(data.origin)
+        if (data !== null){
+            return res.redirect(data.origin)
+        }else{
+            return res.render("noresult")  //查無資料的例外處理
+        }
     })
     .catch(e => {
-        console.log(e)
+        return res.render("error")
     })
 })
+
+
 app.listen(3000,() =>{
     console.log("listening")
 })
