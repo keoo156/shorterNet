@@ -7,8 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <p>以下是結果,原網址為:{{ origin }}</p>
-    <p>以下是縮短結果: <a href="http://localhost:3000/random/{{ random }}" target="_blank" id="short" >http://localhost:3000/random/{{ random }}</a></p>
+    <p>以下是結果,原網址為:{{ data.origin }}</p>
+    <p>以下是縮短結果: <a href="http://localhost:3000/{{ data.random }}" target="_blank" id="short" >http://localhost:3000/{{ data.random }}</a></p>
     <button type="button" id="btn" class="btn btn-primary">點擊複製短網址</button>
     <script>
         //複製短網址功能

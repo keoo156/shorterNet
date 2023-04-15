@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
 const getRandom = require("./random")
-const engine = require("express-handlebars")
+const { engine }= require("express-handlebars")
 const Random = require("./models/random-short")
 
 if (process.env.NODE_ENV !== 'production') {
@@ -31,28 +31,27 @@ app.get("/",(req,res) => {
 app.post("/random",(req,res) =>{
     let origin = req.body.url;
     let random = getRandom()
-    return Random.find({origin})
+    return Random.findOne({ origin })
     .lean()
-    .then(allData => {
-        if (allData !== null){ //看看有沒有重複的網站
-            allData.forEach(data =>{ //如果有就用foreach來跑
-                while(data.random === random){
-                    random = getRandom(); //有找到就重新生成一次
-                }
-            })
-            Random.create({origin, random})
+    .then(data => {
+        if (data !== null){
+            res.render("results",{ data })
         }else{
             Random.create({origin, random})
+            .then(()=>{
+                return Random.findOne({ origin })
+                .lean()
+                .then(data=>{
+                    res.render("results",{ data })
+                })
+            })
         }
-    return res.render("results", {origin, random})
     })
-    .catch(e => {
-        res.render("error")
-    })    
 })
+    
 
 //讓短網址導向原來頁面
-app.get("/random/:random",(req,res)=>{
+app.get("/:random",(req,res)=>{
     let {random} = req.params
     return Random.findOne({random})
     .lean()
